@@ -1,0 +1,43 @@
+div#board {
+  border: 2px solid black;
+	height: 200px;
+	width: 100px;
+  align: center;
+  box-sizing: border-box;
+}
+
+div.board > div {
+  width: 10px;
+  height: 10px;
+  box-sizing: inherit;
+  float: left;
+  margin: 0px;
+}
+
+div.a {
+  color: aqua;
+}
+
+div.y {
+  color: yellow;
+}
+
+div.o {
+  color: orange;
+}
+
+div.g {
+  color: green;
+}
+
+div.b {
+  color: blue;
+}
+
+div.r {
+  color: red;
+}
+
+div.p {
+  color: purple;
+}
