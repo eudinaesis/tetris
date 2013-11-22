@@ -10,7 +10,7 @@ $(document).ready(function() {
           $("div[data-id='[" + y + ", " + x + "]'").attr("data-color", grid[y][x]);
         }
       }
-		}
+		};
     
     var makeGrid = TetrisGame.makeGrid = function (grid) {
       for (var y = 2; y < grid.length; y++) {
@@ -18,7 +18,7 @@ $(document).ready(function() {
           $('div#board').append("<div data-id='[" + y + ", " + x + "]></div>");
         }
       }
-    }
+    };
 
 		var start = TetrisGame.start = function() {
 			var board = TetrisGame.board = new TetrisGame.Board();
@@ -40,11 +40,11 @@ $(document).ready(function() {
 					}
 				}
 			}, 100);
-		}
+		};
     
     var pause = TetrisGame.pause = function (){
       
-    }
+    };
 
 		var keyBindings = TetrisGame.keyBindings = function(shape, board) {
 			$(window).keydown(function(event) {
@@ -86,7 +86,7 @@ $(document).ready(function() {
         board.shape = TetrisGame.Shape.random(board.grid);
 				$(window).off();
 			}
-		}
+		};
 	TetrisGame.start();
 
 	})(this);
