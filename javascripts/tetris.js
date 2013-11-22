@@ -72,9 +72,7 @@ $(document).ready(function() {
     
     Shape.random = function (grid) {
       var shapesArr = ["I", "J", "L", "O", "S", "T", "Z"];
-      var randomShape = shapesArr[
-        Math.floor(Math.random() * shapesArr.length)
-      ];
+      var randomShape = _.sample(shapesArr);
       return new Shape(randomShape, grid);
     }
     
