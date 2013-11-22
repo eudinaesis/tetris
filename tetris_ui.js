@@ -15,7 +15,7 @@ $(document).ready(function() {
     var makeGrid = TetrisGame.makeGrid = function (grid) {
       for (var y = 2; y < grid.length; y++) {
         for (x = 0; x < grid[y].length; x++) {
-          $('div#board').append("<div data-id='[" + y + ", " + x + "]></div>");
+          $('div#board').append("<div data-id='[" + y + ", " + x + "]'></div>");
         }
       }
     };
