@@ -161,7 +161,7 @@ $(document).ready(function() {
 		};
 
     Board.prototype.clearRows = function() {
-      for (var i = 21; i >= 2; i--) {
+      for (var i = this.grid.length - 1; i >= 2; i--) {
         var row = this.grid[i];
         that = this;
         if (_.every(row, function(square) {
@@ -181,7 +181,7 @@ $(document).ready(function() {
 
 		Board.prototype.render = function () {
 			var renderGrid = []
-			for (var i = 2; i <= 21; i++) {
+			for (var i = 2; i < this.grid.length; i++) {
 				var row = this.grid[i].join("");
 				renderGrid.push(row);
 			}

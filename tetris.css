@@ -1,12 +1,11 @@
 div#board {
   border: 2px solid black;
-	height: 200px;
-	width: 100px;
-  align: center;
+	height: 204px;
+	width: 104px;
   box-sizing: border-box;
 }
 
-div.board > div {
+div#board > div {
   width: 10px;
   height: 10px;
   box-sizing: inherit;
@@ -14,30 +13,30 @@ div.board > div {
   margin: 0px;
 }
 
-div.a {
-  color: aqua;
+div[data-color='a'] {
+  background-color: aqua;
 }
 
-div.y {
-  color: yellow;
+div[data-color='y'] {
+  background-color: yellow;
 }
 
-div.o {
-  color: orange;
+div[data-color='o'] {
+  background-color: orange;
 }
 
-div.g {
-  color: green;
+div[data-color='g'] {
+  background-color: green;
 }
 
-div.b {
-  color: blue;
+div[data-color='b'] {
+  background-color: blue;
 }
 
-div.r {
-  color: red;
+div[data-color='r'] {
+  background-color: red;
 }
 
-div.p {
-  color: purple;
+div[data-color='p'] {
+  background-color: purple;
 }
