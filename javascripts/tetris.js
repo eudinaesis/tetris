@@ -1,12 +1,20 @@
 $(document).ready(function() {
 	(function (root) {
-	  var TetrisGame = root.TetrisGame = (root.TetrisGame || {});
+	  var Tetris = root.Tetris = (root.Tetris || {});
 
-		TetrisGame.DIRS = {
+		Tetris.DIRS = {
 			"L": [0, -1],
 			"D": [1, 0],
 			"R": [0, 1]
 		};
+    
+    Tetris.ROW_VALUES = {
+      0: 0,
+      1: 40,
+      2: 100,
+      3: 300,
+      4: 1200
+    };
     
     Array.prototype.compare = function(testArr) {
         if (this.length != testArr.length) return false;
@@ -19,11 +27,11 @@ $(document).ready(function() {
         return true;
     };
     
-    var outOfBounds = TetrisGame.outOfBounds = function (pos) {
+    var outOfBounds = Tetris.outOfBounds = function (pos) {
       
     }
     
-    TetrisGame.SHAPES = {
+    Tetris.SHAPES = {
       "I": {
         "squares": [[0, 0], [0, 1], [0, 2], [0, 3]],
         "origin": [.5, 1.5],
@@ -61,12 +69,12 @@ $(document).ready(function() {
       }
     };
     
-    var Shape = TetrisGame.Shape = function (type, grid) {
-      this.squares = _.map(TetrisGame.SHAPES[type]["squares"], function(square) { 
+    var Shape = Tetris.Shape = function (type, grid) {
+      this.squares = _.map(Tetris.SHAPES[type]["squares"], function(square) { 
         return square.slice();
       });
-      this.origin = TetrisGame.SHAPES[type]["origin"].slice();
-      this.color = TetrisGame.SHAPES[type]["color"];
+      this.origin = Tetris.SHAPES[type]["origin"].slice();
+      this.color = Tetris.SHAPES[type]["color"];
       this.grid = grid;
     };
     
@@ -80,24 +88,30 @@ $(document).ready(function() {
       // new x is y, new y is -x, relative to origin
       var origin = this.origin;
       var color = this.color;
-      var thisGrid = this.grid;
-      
-      _.each(this.squares, function(square) {
-        thisGrid[square[0]][square[1]] = " ";
-      });
-
+      var rotateSquares = this.squares;
+      var rotateGrid = this.grid;
       var newSquares = []
-      _.each(this.squares, function(square, index) {
-        var newX = (square[0] - origin[0]) + origin[1];
-        var newY = (square[1] - origin[1]) * -1 + origin[0];
-        newSquares[index] = [newY, newX];
-        thisGrid[newY][newX] = color
-      })
-      this.squares = newSquares.slice()
+
+      if (_.some(rotateSquares, function(square, index) {
+          var newX = (square[0] - origin[0]) + origin[1];
+          var newY = (square[1] - origin[1]) * -1 + origin[0];
+          newSquares[index] = [newY, newX];
+          return (newX < 0 || newX >= rotateGrid[0].length || newY >= rotateGrid.length)
+        })) {
+        return false;
+      } else {
+        _.each(rotateSquares, function(square) {
+          rotateGrid[square[0]][square[1]] = " ";
+        });
+        _.each(newSquares, function(square) {
+          rotateGrid[square[0]][square[1]] = color;
+        });
+        this.squares = newSquares.slice();
+      }
     };
 
 		Shape.prototype.move = function (key) {
-      dir = TetrisGame.DIRS[key];
+      dir = Tetris.DIRS[key];
       var thisGrid = this.grid;
       var theseSquares = this.squares;
       var color = this.color;
@@ -136,17 +150,19 @@ $(document).ready(function() {
       }
     };
     
-		var gameOver = TetrisGame.gameOver = function(grid) {
+		var gameOver = Tetris.gameOver = function(grid) {
 			return _.some(grid[1], function(square) {
         return square !== " ";
       });
 		};
     
-		var Board = TetrisGame.Board = function () {
-			this.grid = Board.newGrid();
+		var Game = Tetris.Game = function () {
+			this.grid = Game.newGrid();
+      this.score = 0;
+      this.level = 0;
 		};
 
-		Board.newGrid = function () {
+		Game.newGrid = function () {
 			var newGrid = []
 			for (var i = 0; i <= 21; i++) {
 				var newRow = []
@@ -158,7 +174,8 @@ $(document).ready(function() {
 			return newGrid;
 		};
 
-    Board.prototype.clearRows = function() {
+    Game.prototype.clearRows = function() {
+      var rowsCleared = 0;
       for (var i = this.grid.length - 1; i >= 2; i--) {
         var row = this.grid[i];
         that = this;
@@ -167,17 +184,20 @@ $(document).ready(function() {
           })) {
           that.shiftDown(i);
           i += 1;
+          rowsCleared++;
         }
       }
+      this.level += rowsCleared;
+      this.score += Tetris.ROW_VALUES[rowsCleared];
     };
     
-    Board.prototype.shiftDown = function(rowIndex) {
+    Game.prototype.shiftDown = function(rowIndex) {
       for (var i = rowIndex; i >= 2; i--) {
         this.grid[i] = this.grid[i-1].slice();
       }
     }
 
-		Board.prototype.render = function () {
+		Game.prototype.render = function () {
 			var renderGrid = []
 			for (var i = 2; i < this.grid.length; i++) {
 				var row = this.grid[i].join("");

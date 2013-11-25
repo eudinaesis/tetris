@@ -1,18 +1,19 @@
 $(document).ready(function() {
 
 	(function(root){
-	  var TetrisGame = root.TetrisGame = (root.TetrisGame || {});
-		// var UI = TetrisGame.UI = {};
+	  var Tetris = root.Tetris = (root.Tetris || {});
+		// var UI = Tetris.UI = {};
 
-		var View = TetrisGame.View = function(grid) {
+		var View = Tetris.View = function(grid) {
       for (var y = 2; y < grid.length; y++) {
         for (x = 0; x < grid[y].length; x++) {
           $("div[data-id='[" + y + ", " + x + "]']").attr("data-color", grid[y][x]);
         }
       }
+      $("div#score").text("Score: " + Tetris.game.score);
 		};
     
-    var makeGrid = TetrisGame.makeGrid = function (grid) {
+    var makeGrid = Tetris.makeGrid = function (grid) {
       for (var y = 2; y < grid.length; y++) {
         for (x = 0; x < grid[y].length; x++) {
           $('div#board').append("<div data-id='[" + y + ", " + x + "]']></div>");
@@ -20,33 +21,31 @@ $(document).ready(function() {
       }
     };
 
-		var start = TetrisGame.start = function() {
-			var board = TetrisGame.board = new TetrisGame.Board();
-      board.shape = TetrisGame.Shape.random(board.grid);
-			var shape = board.shape;
-      makeGrid(board.grid);
-			keyBindings(shape, board);
+		var start = Tetris.start = function() {
+			var game = Tetris.game = new Tetris.Game();
+			var shape = game.shape = Tetris.Shape.random(game.grid);
+      makeGrid(game.grid);
+			keyBindings(shape, game);
 			var ticks = 0;
-			var timerID = TetrisGame.timerID = setInterval(function() {
+			var timerID = Tetris.timerID = setInterval(function() {
 				ticks += 1;
-				if (ticks % 5 === 0) {
+			  View(game.grid);
+				if (ticks % Math.max(1, 60 - 2 * game.level) === 0) {
 					if (shape.move("D")){
-					  View(board.grid);
 					} else {
-					  View(board.grid);
-					  TetrisGame.endTurn(board);
-            shape = board.shape;
-      			keyBindings(shape, board);
+					  Tetris.endTurn(game);
+            shape = game.shape;
+      			keyBindings(shape, game);
 					}
 				}
-			}, 100);
+			}, 15);
 		};
     
-    var pause = TetrisGame.pause = function (){
+    var pause = Tetris.pause = function (){
       
     };
 
-		var keyBindings = TetrisGame.keyBindings = function(shape, board) {
+		var keyBindings = Tetris.keyBindings = function(shape, game) {
 			$(window).keydown(function(event) {
 				switch (event.which) {
         case 13:
@@ -54,40 +53,40 @@ $(document).ready(function() {
           break;
 				case 37:
 					shape.move("L");
-					View(board.grid);
+					View(game.grid);
 					break;
 				case 39:
 					shape.move("R");
-					View(board.grid);
+					View(game.grid);
 					break;
 				case 40:
 					if (shape.move("D")){
-					  View(board.grid);
+					  View(game.grid);
 					} else {
-					  View(board.grid);
-					  TetrisGame.endTurn(board);
+					  View(game.grid);
+					  Tetris.endTurn(game);
 					}
 					break;
         case 32:
           if (shape.rotate()){
-					  View(board.grid);            
+					  View(game.grid);            
           };
 				}
 			});
 		};
 
-		var newPiece = TetrisGame.endTurn = function(board) {
-			if (TetrisGame.gameOver(board.grid)) {
-				alert('Game Over!');
+		var endTurn = Tetris.endTurn = function(game) {
+			if (Tetris.gameOver(game.grid)) {
+				alert('Game Over! Your score was ' + game.score);
 				$(window).off();
-				clearInterval(TetrisGame.timerID);
+				clearInterval(Tetris.timerID);
 			} else {
-        board.clearRows();
-        board.shape = TetrisGame.Shape.random(board.grid);
+        game.clearRows();
+        game.shape = Tetris.Shape.random(game.grid);
 				$(window).off();
 			}
 		};
-	TetrisGame.start();
+	Tetris.start();
 
 	})(this);
 
