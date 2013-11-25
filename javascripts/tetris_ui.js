@@ -30,7 +30,7 @@ $(document).ready(function() {
 			var timerID = Tetris.timerID = setInterval(function() {
 				ticks += 1;
 			  View(game.grid);
-				if (ticks % Math.max(1, 60 - 2 * game.level) === 0) {
+				if (ticks % Math.floor(650/(game.level + 15)) === 0) {
 					if (shape.move("D")){
 					} else {
 					  Tetris.endTurn(game);
