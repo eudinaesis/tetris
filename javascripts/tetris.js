@@ -92,17 +92,21 @@ $(document).ready(function() {
       var rotateGrid = this.grid;
       var newSquares = []
 
+      _.each(rotateSquares, function(square) {
+        rotateGrid[square[0]][square[1]] = " ";
+      });
+
       if (_.some(rotateSquares, function(square, index) {
           var newX = (square[0] - origin[0]) + origin[1];
           var newY = (square[1] - origin[1]) * -1 + origin[0];
           newSquares[index] = [newY, newX];
-          return (newX < 0 || newX >= rotateGrid[0].length || newY >= rotateGrid.length)
+          return (newX < 0 || newX >= rotateGrid[0].length || newY >= rotateGrid.length || rotateGrid[newY][newX] !== " ")
         })) {
+        _.each(rotateSquares, function(square) {
+          rotateGrid[square[0]][square[1]] = color;
+        });
         return false;
       } else {
-        _.each(rotateSquares, function(square) {
-          rotateGrid[square[0]][square[1]] = " ";
-        });
         _.each(newSquares, function(square) {
           rotateGrid[square[0]][square[1]] = color;
         });
