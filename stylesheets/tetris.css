@@ -1,16 +1,34 @@
-div#board {
-  border: 2px solid black;
-	height: 204px;
-	width: 104px;
-  box-sizing: border-box;
-}
 
-div#board > div {
-  width: 10px;
-  height: 10px;
-  box-sizing: inherit;
-  float: left;
-  margin: 0px;
+  div#board {
+    border: 2px solid black;
+  	height: 404px;
+  	width: 204px;
+    box-sizing: border-box;
+  }
+
+  div#board > div {
+    width: 20px;
+    height: 20px;
+    box-sizing: inherit;
+    float: left;
+    margin: 0px;
+  }
+
+@media print, screen and (max-width: 540px) {
+  div#board {
+    border: 2px solid black;
+  	height: 204px;
+  	width: 104px;
+    box-sizing: border-box;
+  }
+
+  div#board > div {
+    width: 10px;
+    height: 10px;
+    box-sizing: inherit;
+    float: left;
+    margin: 0px;
+  }
 }
 
 div[data-color='a'] {

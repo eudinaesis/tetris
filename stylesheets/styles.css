@@ -46,7 +46,7 @@ a small {
 }
 
 .wrapper {
-  width:600px;
+  width:480px;
   margin:0 auto;
 }
 
@@ -96,7 +96,7 @@ img {
 }
 
 header {
-  width:270px;
+  width:240px;
   float:left;
   position:fixed;
 }
@@ -160,7 +160,7 @@ header ul a strong {
 }
 
 section {
-  width:300px;
+  width:240px;
   float:right;
   padding-bottom:50px;
 }
@@ -190,14 +190,22 @@ footer {
     margin:0;
   }
   
-  header, section {
-    float:none;
+  header {
+    float:left;
     position:static;
-    width:auto;
+    width:200px;
+    
   }
   
+  section {
+    width:120px;
+    float:left;
+    padding-bottom:50px;
+  }
+  
+  
   header {
-    padding-right:320px;
+/*    padding-right:320px; */
   }
   
   section {

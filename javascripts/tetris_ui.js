@@ -14,6 +14,7 @@ $(document).ready(function() {
 		};
     
     var makeGrid = Tetris.makeGrid = function (grid) {
+      $('div#board').empty();
       for (var y = 2; y < grid.length; y++) {
         for (x = 0; x < grid[y].length; x++) {
           $('div#board').append("<div data-id='[" + y + ", " + x + "]']></div>");
@@ -77,13 +78,18 @@ $(document).ready(function() {
 
 		var endTurn = Tetris.endTurn = function(game) {
 			if (Tetris.gameOver(game.grid)) {
-				alert('Game Over! Your score was ' + game.score);
 				$(window).off();
 				clearInterval(Tetris.timerID);
+				var response = confirm('Game over! Your score was ' + game.score + '. Play again?');
+				if (response) {
+					Tetris.start();
+				} else {
+					alert("Thanks for playing!");
+				}
 			} else {
+				$(window).off();
         game.clearRows();
         game.shape = Tetris.Shape.random(game.grid);
-				$(window).off();
 			}
 		};
 	Tetris.start();
