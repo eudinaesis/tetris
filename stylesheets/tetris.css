@@ -13,7 +13,7 @@
     float: left;
     margin: 0px;
   }
-
+  /*
 @media print, screen and (max-width: 540px) {
   div#board {
     border: 2px solid black;
@@ -29,7 +29,7 @@
     float: left;
     margin: 0px;
   }
-}
+}*/
 
 div[data-color='a'] {
   background-color: aqua;
